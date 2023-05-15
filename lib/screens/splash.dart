@@ -18,7 +18,7 @@ class _SplashPageState extends State<SplashPage> {
     return AnimatedSplashScreen(
       backgroundColor: mainBackground,
       splash: 'images/HOMEBODY.png',
-      nextScreen: HomePage(),
+      nextScreen: const HomePage(),
       splashTransition: SplashTransition.fadeTransition,
       pageTransitionType: PageTransitionType.fade,
       splashIconSize: 600.0,

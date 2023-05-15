@@ -1,14 +1,20 @@
+import 'package:homebody/models/model_pet_details.dart';
 
-class AdoptionState {
-  late bool isAdopted;
-
-  AdoptionState({required this.isAdopted});
+abstract class AdoptionState {
+  const AdoptionState();
 }
 
 class InitialAdoptionState extends AdoptionState {
-  InitialAdoptionState(): super(isAdopted: false);
+  const InitialAdoptionState();
 }
 
 class AdoptedState extends AdoptionState {
-  AdoptedState(): super(isAdopted: true);
+  final List<PetDetails> dogList, catList;
+
+  const AdoptedState({
+    required this.dogList,
+    required this.catList,
+  });
 }
+
+class AdoptionLoading extends AdoptionState {}

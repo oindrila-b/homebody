@@ -1,80 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:homebody/screens/dog_page_list.dart';
+import 'package:homebody/models/model_pet_details.dart';
 import 'package:homebody/utils/colors.dart';
-import 'package:homebody/utils/details_dogs_cats.dart';
-import 'package:homebody/utils/texts.dart';
+import 'package:homebody/widgets/widget_pet_list.dart';
 
-import '../screens/ImageDetails.dart';
-import '../generic_view/detail_page_model.dart';
-
+// TODO : Make it another widget.
 
 class DogFilterView extends StatefulWidget {
+  final String filterParameter;
+  final List<PetDetails> updatedPetList;
 
-  String filterParameter;
-
-   DogFilterView({Key? key, required this.filterParameter}) : super(key: key);
+  const DogFilterView({
+    Key? key,
+    required this.filterParameter,
+    required this.updatedPetList,
+  }) : super(key: key);
 
   @override
   State<DogFilterView> createState() => _DogFilterViewState();
 }
 
 class _DogFilterViewState extends State<DogFilterView> {
-  List<ImageDetails> dogImages = dogDetailsList;
-
-  // List<ImageDetails> _filteredList = [];
-
   @override
   Widget build(BuildContext context) {
-
-    var _filteredList = dogImages.where((element) => (element.breed.toLowerCase() == widget.filterParameter.toLowerCase())).toList();
-     print(_filteredList.length);
+    var filteredList = widget.updatedPetList
+        .where((element) => (element.breed.toLowerCase() ==
+            widget.filterParameter.toLowerCase()))
+        .toList();
 
     return Container(
-      padding: EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-          color: dogListContainerColor,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          )
-      ),
-      child: GridView.builder(
-        padding:  EdgeInsets.all(16.0) ,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
+        color: dogListContainerColor,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
         ),
-        itemBuilder: (context, index) {
-          return RawMaterialButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(
-                      builder: (context) => DetailsPage(
-                        imagePath: _filteredList[index].imagePath,
-                        name: _filteredList[index].name,
-                        age: _filteredList[index].age,
-                        price: _filteredList[index].price,
-                        breed: _filteredList[index].breed,
-                      )
-                  )
-              );
-            },
-            child: Hero(
-              tag: 'image-${_filteredList[index].name}',
-              child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      image: DecorationImage(
-                        image: AssetImage(_filteredList[index].imagePath),
-                        fit: BoxFit.cover,
-                      )
-                  )
-              ),
-            ),
-          );
-        },
-        itemCount: _filteredList.length,
+      ),
+      child: PetGridView(
+        pets: filteredList,
       ),
     );
   }
