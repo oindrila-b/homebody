@@ -3,7 +3,6 @@ import 'package:homebody/models/model_pet_details.dart';
 import 'package:homebody/utils/colors.dart';
 import 'package:homebody/widgets/widget_pet_list.dart';
 
-// TODO : Make it another widget.
 
 class DogFilterView extends StatefulWidget {
   final String filterParameter;
