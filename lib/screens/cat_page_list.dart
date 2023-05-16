@@ -24,6 +24,7 @@ class _CatPageListState extends State<CatPageList> {
         ),
       ),
       child: PetGridView(
+        key: Key("CatPageView"),
         pets: widget.cats,
       ),
     );

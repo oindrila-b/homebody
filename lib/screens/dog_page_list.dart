@@ -24,6 +24,7 @@ class _DogPageListState extends State<DogPageList> {
         ),
       ),
       child: PetGridView(
+        key: Key("DogPageView"),
         pets: widget.dogs,
       ),
     );
