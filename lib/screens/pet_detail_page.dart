@@ -10,7 +10,7 @@ import 'package:homebody/utils/texts.dart';
 class DetailsPage extends StatefulWidget {
   final PetDetails pet;
 
-  const DetailsPage({
+  DetailsPage({
     Key? key,
     required this.pet,
   }) : super(key: key);
@@ -124,7 +124,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                         species: widget.pet.species,
                                       ),
                                     );
-                                    showAdoptedDialog();
+                                    showAdoptedDialog(widget.pet);
                                   }
                                 : null,
                             style: ElevatedButton.styleFrom(
@@ -157,8 +157,7 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 
   // TODO
-  void showAdoptedDialog() {
-
+  void showAdoptedDialog(PetDetails pet) {
     showDialog(context: context, builder: (BuildContext context)
     {
       return AlertDialog(
@@ -171,6 +170,7 @@ class _DetailsPageState extends State<DetailsPage> {
       );
     });
   }
+
 
     // Get.defaultDialog(
     //   title: "🎊🎊🎉🎉",

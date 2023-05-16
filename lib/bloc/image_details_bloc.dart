@@ -5,16 +5,20 @@ import 'package:homebody/models/model_pet_details.dart';
 
 import '../utils/details_dogs_cats.dart';
 
+List<PetDetails> _adoptedPets = [];
+
 class AdoptionBloc extends Bloc<AdoptionEvent, AdoptionState> {
-  List<PetDetails> _cats = catDetailsList, _dogs = dogDetailsList;
-  List<PetDetails> _adoptedPets = [];
+  List<PetDetails> _cats = catDetailsList;
+  List<PetDetails>  _dogs = dogDetailsList;
+
 
   AdoptionBloc() : super(const InitialAdoptionState()) {
-    on<GetInitialListEvent>(_getInitialListHandler);
+    on<GetInitialListEvent>(_getInitialList);
     on<PressedAdoptionEvent>(_adoptAPet);
+    on<GetAdoptedListEvent>(_getAdoptedPetList);
   }
 
-  void _getInitialListHandler(
+  void _getInitialList(
       GetInitialListEvent event, Emitter<AdoptionState> emit) {
     emit(AdoptedState(dogList: _dogs, catList: _cats));
   }
@@ -35,4 +39,9 @@ class AdoptionBloc extends Bloc<AdoptionEvent, AdoptionState> {
     emit(AdoptionLoading());
     emit(AdoptedState(dogList: _dogs, catList: _cats));
   }
+
+  void _getAdoptedPetList(GetAdoptedListEvent event, Emitter<AdoptionState> emit) {
+    emit(AdoptedListState(adoptedList: _adoptedPets));
+  }
+
 }

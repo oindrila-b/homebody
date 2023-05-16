@@ -9,12 +9,23 @@ class InitialAdoptionState extends AdoptionState {
 }
 
 class AdoptedState extends AdoptionState {
-  final List<PetDetails> dogList, catList;
+  final List<PetDetails> dogList;
+  final List<PetDetails> catList;
+
 
   const AdoptedState({
     required this.dogList,
     required this.catList,
+
   });
 }
 
 class AdoptionLoading extends AdoptionState {}
+
+class AdoptedListState extends AdoptionState {
+  final List<PetDetails> adoptedList;
+  const AdoptedListState({
+    required this.adoptedList,
+});
+
+}

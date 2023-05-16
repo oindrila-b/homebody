@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:homebody/bloc/image_details_bloc.dart';
+import 'package:homebody/screens/adoptionHistoryPage.dart';
 import 'package:homebody/screens/dogPets.dart';
 import 'package:homebody/utils/colors.dart';
 import '../bloc/image_details_event.dart';
@@ -17,6 +18,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int navIndex = 0;
+
   void _navigateToCatDetails(BuildContext context, List<PetDetails> pets) {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -39,12 +42,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    context.read<AdoptionBloc>().add(GetInitialListEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<AdoptionBloc>().add(GetInitialListEvent());
+    });
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarColor,
@@ -53,7 +58,8 @@ class _HomePageState extends State<HomePage> {
         ), // app bar title
         centerTitle: true, // center alignment of the app bar
       ),
-      body: Container(
+      body: (navIndex == 0) ?
+      Container(
         // scaffold body
         decoration: const BoxDecoration(
           // scaffold background image
@@ -73,7 +79,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-            // DOGS OPTION
+
             BlocConsumer<AdoptionBloc, AdoptionState>(
               listener: (context, state) {},
               builder: (context, state) {
@@ -90,9 +96,11 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        // DOGS OPTION
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
+                              // navigate to dogs list page
                               _navigateToDogDetails(
                                 context,
                                 state.dogList,
@@ -107,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     const CircleAvatar(
                                       radius:
-                                          60, //we give the image a radius of 50
+                                          60, //we give the image a radius of 60
                                       backgroundImage:
                                           AssetImage('images/bow.png'),
                                     ),
@@ -126,6 +134,7 @@ class _HomePageState extends State<HomePage> {
 
                         // CATS OPTION
                         Expanded(
+                          // navigate to cats list page
                           child: GestureDetector(
                             onTap: () {
                               _navigateToCatDetails(
@@ -162,20 +171,41 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 }
-
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               },
             ),
-            Expanded(
-              flex: 1,
-              child: SizedBox(
-                height: (MediaQuery.of(context).size.width) / 1.5,
-              ),
-            ),
           ],
         ),
+      ) :
+        Container(
+          child: ElevatedButton(onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>   AdoptionHistoryPage()));
+          },
+            child: Center(child: Icon(Icons.history)),
+          ),
+        ),
+
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (index) {
+          setState(() {
+            navIndex = index;
+          });
+        },
+        type: BottomNavigationBarType.shifting,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: Colors.brown
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: 'History',
+              backgroundColor: Colors.brown
+          ),
+        ],
       ),
     );
   }

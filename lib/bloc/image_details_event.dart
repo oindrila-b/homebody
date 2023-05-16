@@ -15,3 +15,6 @@ class PressedAdoptionEvent extends AdoptionEvent {
 }
 
 class GetInitialListEvent extends AdoptionEvent {}
+
+class GetAdoptedListEvent extends AdoptionEvent {}
+
